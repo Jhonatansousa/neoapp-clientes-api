@@ -51,5 +51,18 @@ public class CustomerServiceImpl implements ICustomerService {
         return customerPage.map(mapper::toResponseDTO);
     }
 
+    @Override
+    public CustomerResponseDTO updateCustomer(Integer id, CustomerRequestDTO dto) {
+        Customer customer = repo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Customer with id " + id + " not found")
+        );
+        customer.setName(dto.name());
+        customer.setEmail(dto.email());
+        customer.setPhone(dto.phone());
+        customer.setBirthDate(dto.birthDate());
+
+        return mapper.toResponseDTO(repo.save(customer));
+    }
+
 
 }

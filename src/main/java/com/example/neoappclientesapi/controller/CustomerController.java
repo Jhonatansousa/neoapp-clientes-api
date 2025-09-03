@@ -80,4 +80,17 @@ public class CustomerController {
     }
 
 
+    @PutMapping("/customer/{id}")
+    public ResponseEntity<APIResponse<CustomerResponseDTO>> updateCustomer(@PathVariable Integer id, @RequestBody @Valid CustomerRequestDTO dto) {
+        CustomerResponseDTO customer = service.updateCustomer(id, dto);
+
+        APIResponse<CustomerResponseDTO> apiResponse = APIResponse.<CustomerResponseDTO>builder()
+                .status("SUCCES")
+                .results(customer)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+
 }

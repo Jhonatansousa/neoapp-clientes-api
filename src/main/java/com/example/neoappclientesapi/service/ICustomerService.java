@@ -14,4 +14,6 @@ public interface ICustomerService {
     void softDeleteCustomer(Integer id);
 
     Page<CustomerResponseDTO> findAllCustomers(Pageable pageable);
+
+    CustomerResponseDTO updateCustomer(Integer id, CustomerRequestDTO customerRequestDTO);
 }
