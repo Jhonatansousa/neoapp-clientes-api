@@ -7,11 +7,9 @@ import com.example.neoappclientesapi.entity.Customer;
 import com.example.neoappclientesapi.service.ICustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -38,5 +36,30 @@ public class CustomerController {
 
         return ResponseEntity.created(location).body(apiResponse);
     }
+
+
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<APIResponse<Void>> delete(@PathVariable Integer id) {
+
+        service.deleteCustomer(id);
+
+        APIResponse<Void> apiResponse = APIResponse.<Void>builder()
+                .status("SUCCESS")
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/customer/{id}")
+    public ResponseEntity<APIResponse<Void>> deleteCustomer(@PathVariable Integer id) {
+        service.softDeleteCustomer(id);
+
+        APIResponse<Void> apiResponse = APIResponse.<Void>builder()
+                .status("SUCCESS")
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
+    }
+
 
 }

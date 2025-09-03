@@ -6,4 +6,8 @@ import com.example.neoappclientesapi.dto.CustomerResponseDTO;
 public interface ICustomerService {
 
     CustomerResponseDTO createCustomer(CustomerRequestDTO customerRequestDTO);
+
+    void deleteCustomer(Integer id);
+
+    void softDeleteCustomer(Integer id);
 }
