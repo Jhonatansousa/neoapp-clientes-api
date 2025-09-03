@@ -3,6 +3,7 @@ package com.example.neoappclientesapi.dto;
 import com.example.neoappclientesapi.entity.CustomerStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record CustomerResponseDTO(
         Integer id,
@@ -12,6 +13,7 @@ public record CustomerResponseDTO(
         String phone,
         LocalDate birthDate,
         CustomerStatus status,
+        LocalDateTime createdAt,
         Integer age
 ) {
 }

@@ -30,6 +30,7 @@ public class CustomerMapper {
                 customer.getPhone(),
                 customer.getBirthDate(),
                 customer.getStatus(),
+                customer.getCreatedAt(),
                 customer.getAge()
         );
     }

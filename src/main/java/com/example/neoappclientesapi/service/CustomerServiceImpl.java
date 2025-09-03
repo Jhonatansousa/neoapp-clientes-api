@@ -9,6 +9,8 @@ import com.example.neoappclientesapi.exception.ResourceNotFoundException;
 import com.example.neoappclientesapi.mapper.CustomerMapper;
 import com.example.neoappclientesapi.repository.CustomerRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,4 +44,12 @@ public class CustomerServiceImpl implements ICustomerService {
         customerToDelete.setStatus(CustomerStatus.INACTIVE);
         repo.save(customerToDelete);
     }
+
+    @Override
+    public Page<CustomerResponseDTO> findAllCustomers(Pageable pageable) {
+        Page<Customer> customerPage = repo.findAll(pageable);
+        return customerPage.map(mapper::toResponseDTO);
+    }
+
+
 }

@@ -3,10 +3,13 @@ package com.example.neoappclientesapi.controller;
 import com.example.neoappclientesapi.dto.APIResponse;
 import com.example.neoappclientesapi.dto.CustomerRequestDTO;
 import com.example.neoappclientesapi.dto.CustomerResponseDTO;
-import com.example.neoappclientesapi.entity.Customer;
 import com.example.neoappclientesapi.service.ICustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +53,8 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("/customer/{id}")
-    public ResponseEntity<APIResponse<Void>> deleteCustomer(@PathVariable Integer id) {
+    @PatchMapping("/status/customer/{id}")
+    public ResponseEntity<APIResponse<Void>> softDeleteCustomer(@PathVariable Integer id) {
         service.softDeleteCustomer(id);
 
         APIResponse<Void> apiResponse = APIResponse.<Void>builder()
@@ -59,6 +62,21 @@ public class CustomerController {
                 .build();
 
         return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
+    }
+
+
+    @GetMapping("/customers")
+    public ResponseEntity<APIResponse<Page<CustomerResponseDTO>>> findAll(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable) {
+
+        Page<CustomerResponseDTO> customerPage = service.findAllCustomers(pageable);
+
+        APIResponse<Page<CustomerResponseDTO>> apiResponse = APIResponse.<Page<CustomerResponseDTO>>builder()
+                .status("SUCCESS")
+                .results(customerPage)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 
