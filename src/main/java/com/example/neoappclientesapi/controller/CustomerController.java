@@ -3,6 +3,8 @@ package com.example.neoappclientesapi.controller;
 import com.example.neoappclientesapi.dto.APIResponse;
 import com.example.neoappclientesapi.dto.CustomerRequestDTO;
 import com.example.neoappclientesapi.dto.CustomerResponseDTO;
+import com.example.neoappclientesapi.dto.CustomerUpdateDTO;
+import com.example.neoappclientesapi.entity.CustomerStatus;
 import com.example.neoappclientesapi.service.ICustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +83,7 @@ public class CustomerController {
 
 
     @PutMapping("/customer/{id}")
-    public ResponseEntity<APIResponse<CustomerResponseDTO>> updateCustomer(@PathVariable Integer id, @RequestBody @Valid CustomerRequestDTO dto) {
+    public ResponseEntity<APIResponse<CustomerResponseDTO>> updateCustomer(@PathVariable Integer id, @RequestBody @Valid CustomerUpdateDTO dto) {
         CustomerResponseDTO customer = service.updateCustomer(id, dto);
 
         APIResponse<CustomerResponseDTO> apiResponse = APIResponse.<CustomerResponseDTO>builder()
@@ -92,5 +94,24 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+
+
+    @GetMapping("/customers/search")
+    public ResponseEntity<APIResponse<Page<CustomerResponseDTO>>> searchCustomer(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) CustomerStatus status,
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<CustomerResponseDTO> customerPage = service.searchCustomer(name, cpf, email, status, pageable);
+
+        APIResponse<Page<CustomerResponseDTO>> apiResponse = APIResponse.<Page<CustomerResponseDTO>>builder()
+                .status("SUCCESS")
+                .results(customerPage)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
 }
