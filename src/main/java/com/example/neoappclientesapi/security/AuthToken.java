@@ -1,4 +1,4 @@
-package com.example.neoappclientesapi.securirty;
+package com.example.neoappclientesapi.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

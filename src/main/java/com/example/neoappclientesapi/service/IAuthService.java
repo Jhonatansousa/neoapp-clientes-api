@@ -2,7 +2,7 @@ package com.example.neoappclientesapi.service;
 
 import com.example.neoappclientesapi.dto.LoginRequestDTO;
 import com.example.neoappclientesapi.dto.RegisterRequestDTO;
-import com.example.neoappclientesapi.securirty.AuthToken;
+import com.example.neoappclientesapi.security.AuthToken;
 
 public interface IAuthService {
 

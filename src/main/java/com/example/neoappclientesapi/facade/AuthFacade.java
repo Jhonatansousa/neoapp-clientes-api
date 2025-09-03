@@ -2,7 +2,7 @@ package com.example.neoappclientesapi.facade;
 
 import com.example.neoappclientesapi.dto.LoginRequestDTO;
 import com.example.neoappclientesapi.dto.RegisterRequestDTO;
-import com.example.neoappclientesapi.securirty.AuthToken;
+import com.example.neoappclientesapi.security.AuthToken;
 import com.example.neoappclientesapi.service.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

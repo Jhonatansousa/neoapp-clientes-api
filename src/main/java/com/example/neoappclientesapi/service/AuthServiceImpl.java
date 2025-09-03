@@ -8,8 +8,8 @@ import com.example.neoappclientesapi.exception.DuplicatedResourceException;
 import com.example.neoappclientesapi.exception.InvalidCredentialsException;
 import com.example.neoappclientesapi.mapper.AuthMapper;
 import com.example.neoappclientesapi.repository.UserRepo;
-import com.example.neoappclientesapi.securirty.AuthToken;
-import com.example.neoappclientesapi.securirty.TokenUtil;
+import com.example.neoappclientesapi.security.AuthToken;
+import com.example.neoappclientesapi.security.TokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class AuthServiceImpl implements IAuthService {
             throw new InvalidCredentialsException("Email or password invalid");
         }
 
-        TokenDataDTO tokenData = new TokenDataDTO(res.getEmail());
+        TokenDataDTO tokenData = new TokenDataDTO(res.getEmail() ,"USER");
 
         return TokenUtil.encodeToken(tokenData);
     }

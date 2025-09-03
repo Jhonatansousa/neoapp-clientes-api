@@ -1,4 +1,4 @@
-package com.example.neoappclientesapi.securirty;
+package com.example.neoappclientesapi.security;
 
 import com.example.neoappclientesapi.dto.TokenDataDTO;
 import io.jsonwebtoken.Claims;
@@ -8,10 +8,14 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TokenUtil {
 
@@ -23,9 +27,10 @@ public class TokenUtil {
         try {
             Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
             String jwtToken = Jwts.builder()
-                    .subject(userData.cpf())
+                    .subject(userData.email())
                     .issuer(ISSUER)
                     .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                    .claim("ROLES", List.of(userData.role()))
                     .signWith(key)
                     .compact();
 
@@ -49,8 +54,14 @@ public class TokenUtil {
                 String issuer = claims.getIssuer();
                 Date exp = claims.getExpiration();
 
+                @SuppressWarnings("unchecked")
+                List<String> roles = (List<String>) claims.get("ROLES");
+
+                List<GrantedAuthority> authorities = roles.stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
+
                 if (issuer.equals(ISSUER) && !subject.isEmpty() && exp.after(new Date(System.currentTimeMillis()))) {
-                    return new UsernamePasswordAuthenticationToken(subject, null);
+                    return new UsernamePasswordAuthenticationToken(subject, null, authorities);
                 }
             }
         } catch (Exception e) {
@@ -58,6 +69,4 @@ public class TokenUtil {
         }
         return null;
     }
-
-
 }

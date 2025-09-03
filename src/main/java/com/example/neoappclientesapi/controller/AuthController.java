@@ -4,7 +4,7 @@ import com.example.neoappclientesapi.dto.APIResponse;
 import com.example.neoappclientesapi.dto.LoginRequestDTO;
 import com.example.neoappclientesapi.dto.RegisterRequestDTO;
 import com.example.neoappclientesapi.facade.AuthFacade;
-import com.example.neoappclientesapi.securirty.AuthToken;
+import com.example.neoappclientesapi.security.AuthToken;
 import com.example.neoappclientesapi.service.IAuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

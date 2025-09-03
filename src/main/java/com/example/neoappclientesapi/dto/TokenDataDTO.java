@@ -1,4 +1,5 @@
 package com.example.neoappclientesapi.dto;
 
-public record TokenDataDTO(String cpf) {
+
+public record TokenDataDTO(String email, String role) {
 }

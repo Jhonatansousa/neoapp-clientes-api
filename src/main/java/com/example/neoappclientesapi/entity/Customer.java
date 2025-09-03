@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.time.Period;
 
 @Entity
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private String name;
     private String cpf;
@@ -19,9 +19,9 @@ public class Customer {
     private String phone;
     private LocalDate birthDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private Address address;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "address_id")
+//    private Address address;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -30,11 +30,23 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private CustomerStatus status;
 
-    public UUID getId() {
+
+    // ========
+    @Transient
+    public Integer getAge() {
+        if(this.birthDate == null) {
+            return null;
+        }
+        return Period.between(this.birthDate, LocalDate.now()).getYears();
+    }
+    //====
+
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -78,13 +90,13 @@ public class Customer {
         this.birthDate = birthDate;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+//    public Address getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(Address address) {
+//        this.address = address;
+//    }
 
     public LocalDate getCreatedAt() {
         return createdAt;

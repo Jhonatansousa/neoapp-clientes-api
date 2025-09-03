@@ -1,4 +1,4 @@
-package com.example.neoappclientesapi.securirty;
+package com.example.neoappclientesapi.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
